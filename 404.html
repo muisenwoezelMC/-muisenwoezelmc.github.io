@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>404 – Muisenwoezel</title>
+<style>
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100svh;display:grid;place-items:center;background:#0c1a2e;color:#e8ecf2;font:400 18px/1.55 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;text-align:center;padding:24px}
+.lang{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;display:flex;gap:4px}
+.lang button{font:600 14px system-ui,-apple-system,Arial,sans-serif;color:#8d99ab;background:transparent;border:2px solid #2a3a52;padding:6px 10px;min-height:36px;cursor:pointer}
+.lang button[aria-pressed="true"]{color:#fff;border-color:#e03a3a;background:#8f1f1f}
+.lang button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.b{width:72px;height:72px;margin:0 auto 24px;background:#e03a3a;box-shadow:inset -8px -8px 0 #8f1f1f,inset 8px 8px 0 #f27a7a;animation:f 2.4s ease-in-out infinite alternate}
+@keyframes f{to{transform:translateY(-12px) rotate(8deg)}}
+h1{margin:0 0 8px;font-size:clamp(28px,7vw,44px);line-height:1.1;text-wrap:balance}
+p{margin:0 0 24px;color:#8d99ab;text-wrap:pretty}
+a.go{display:inline-block;padding:13px 22px;background:#e03a3a;color:#fff;font-weight:600;text-decoration:none;box-shadow:inset -4px -4px 0 #8f1f1f,inset 4px 4px 0 #f27a7a}
+a.go:active{transform:scale(.97)}
+@media (prefers-reduced-motion:reduce){.b{animation:none}}
+</style>
+</head>
+<body>
+<div class="lang" role="group" aria-label="Taal / Language">
+  <button data-l="nl" aria-pressed="true">NL</button>
+  <button data-l="en" aria-pressed="false">EN</button>
+  <button data-l="de" aria-pressed="false">DE</button>
+  <button data-l="es" aria-pressed="false">ES</button>
+  <button data-l="fr" aria-pressed="false">FR</button>
+</div>
+<main>
+<div class="b" aria-hidden="true"></div>
+<h1 data-t="h">Deze pagina bestaat niet</h1>
+<p data-t="p">Het blok dat je zoekt is weg. Ga terug naar de hoofdpagina.</p>
+<a class="go" href="/" data-t="a">Naar de hoofdpagina</a>
+</main>
+<script>
+var D={
+ nl:{h:'Deze pagina bestaat niet',p:'Het blok dat je zoekt is weg. Ga terug naar de hoofdpagina.',a:'Naar de hoofdpagina'},
+ en:{h:'This page doesn’t exist',p:'The block you’re looking for is gone. Head back to the main page.',a:'Back to the main page'},
+ de:{h:'Diese Seite gibt es nicht',p:'Der Block, den du suchst, ist weg. Geh zurück zur Startseite.',a:'Zur Startseite'},
+ es:{h:'Esta página no existe',p:'El bloque que buscas ha desaparecido. Vuelve a la página principal.',a:'Ir a la página principal'},
+ fr:{h:'Cette page n’existe pas',p:'Le bloc que tu cherches a disparu. Retourne à la page d’accueil.',a:'Retour à l’accueil'}
+};
+function setLang(l){
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-t]').forEach(function(e){e.textContent=D[l][e.dataset.t]});
+  document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.l===l))});
+}
+document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.l)})});
+var n=(navigator.language||'en').slice(0,2).toLowerCase();
+setLang(D[n]?n:'en');
+</script>
+</body>
+</html>
